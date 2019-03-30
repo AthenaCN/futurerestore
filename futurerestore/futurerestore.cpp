@@ -564,8 +564,11 @@ int futurerestore::doRestore(const char *ipsw){
     if (client->mode->index != MODE_RECOVERY && client->mode->index != MODE_DFU && !_enterPwnRecoveryRequested)
         reterror(-6, "device not in recovery mode\n");
     // discover the device type
-    if (check_hardware_model(client) == NULL || client->device == NULL) {
-        reterror(-2,"ERROR: Unable to discover device model\n");
+//  if (check_hardware_model(client) == NULL || client->device == NULL) {
+//      reterror(-2,"ERROR: Unable to discover device model\n");
+    client->device = get_irecv_device(client);
+    if (client->device == NULL) {
+        reterror(-2,"ERROR: Unable to discover device type\n");
     }
     info("Identified device as %s, %s\n", client->device->hardware_model, client->device->product_type);
     
@@ -958,8 +961,11 @@ int futurerestore::doJustBoot(const char *ipsw, string bootargs){
     if (!(client->mode->index == MODE_DFU || client->mode->index == MODE_RECOVERY) || !_enterPwnRecoveryRequested)
         reterror(-6, "device not in DFU/Recovery mode\n");
     // discover the device type
-    if (check_hardware_model(client) == NULL || client->device == NULL) {
-        reterror(-2,"ERROR: Unable to discover device model\n");
+//  if (check_hardware_model(client) == NULL || client->device == NULL) {
+//      reterror(-2,"ERROR: Unable to discover device model\n");
+    client->device = get_irecv_device(client);
+    if (client->device == NULL) {
+        reterror(-2,"ERROR: Unable to discover device type\n");
     }
     info("Identified device as %s, %s\n", client->device->hardware_model, client->device->product_type);
     
@@ -1075,9 +1081,13 @@ const char *futurerestore::getDeviceModelNoCopy(){
         if (mode != MODE_NORMAL && mode != MODE_RECOVERY && mode != MODE_DFU)
             reterror(-20, "unexpected device mode=%d\n",mode);
         
-        if (check_hardware_model(_client) == NULL || _client->device == NULL)
+//      if (check_hardware_model(_client) == NULL || _client->device == NULL)
+        _client->device = get_irecv_device(_client);
+        if (_client->device == NULL)
             reterror(-2,"ERROR: Unable to discover device model\n");
     }
+
+    info("Found device product %s\n", _client->device->product_type);
     
     return _client->device->product_type;
 }
@@ -1089,9 +1099,14 @@ const char *futurerestore::getDeviceBoardNoCopy(){
         if (mode != MODE_NORMAL && mode != MODE_RECOVERY)
             reterror(-20, "unexpected device mode=%d\n",mode);
         
-        if (check_hardware_model(_client) == NULL || _client->device == NULL)
-            reterror(-2,"ERROR: Unable to discover device model\n");
+//      if (check_hardware_model(_client) == NULL || _client->device == NULL)
+//          reterror(-2,"ERROR: Unable to discover device model\n");
+        _client->device = get_irecv_device(_client);
+        if (_client->device == NULL)
+            reterror(-2,"ERROR: Unable to discover device type\n");
     }
+
+    info("Found device board %s/n", _client->device->hardware_model);
     
     return _client->device->hardware_model;
 }
