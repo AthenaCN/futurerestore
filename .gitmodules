@@ -1,3 +1,6 @@
 [submodule "external/tsschecker"]
 	path = external/tsschecker
 	url = git@github.com:AthenaCN/tsschecker.git
+[submodule "external/img4tool"]
+	path = external/img4tool
+	url = git@github.com:AthenaCN/img4tool.git
