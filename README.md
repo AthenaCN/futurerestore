@@ -164,5 +164,5 @@ If you have shsh files for iOS9 which do not contain a nonce, you can restore to
 1. Connect your device in DFU mode
 2. On the computer run `futurerestore -t ticket.shsh --latest-baseband ios9.ipsw`
 
-### The futurerestore is an original copy from @tihmstar
+### The futurerestore is an original copy from @tihmstar(https://github.com/tihmstar/futurerestore)
 - Just made an update in order to adapt to the idevicerestore's changes.
