@@ -1,0 +1,3 @@
+[submodule "external/tsschecker"]
+	path = external/tsschecker
+	url = git@github.com:AthenaCN/tsschecker.git
